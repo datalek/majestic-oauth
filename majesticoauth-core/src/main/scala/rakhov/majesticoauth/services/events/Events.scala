@@ -2,15 +2,12 @@ package rakhov.majesticoauth.services.events
 
 import zio._
 
-trait Events {
-  def events: Events.Service[Any]
-}
-
 object Events {
-  trait Service[R] {
-    def prepare(): ZIO[R, Error, Either[Unit, Unit]]
+  trait Service {
+    def prepare(): IO[Error, Either[Unit, Unit]]
     /* or confirm */
-    def finalize(): ZIO[R, Error, Either[Unit, Unit]]
-    def log(): ZIO[R, Error, Either[]]
+    def finalize(in: Unit): IO[Error, Either[Unit, Unit]]
+
+    def log(): IO[Error, Either[Any, Any]]
   }
 }

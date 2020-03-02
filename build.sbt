@@ -32,9 +32,10 @@ lazy val http = Project(id = s"$projectName-http", base = file(s"$projectName-ht
 /* the core application, contains the logic of the application */
 lazy val core = Project(id = s"$projectName-core", base = file(s"$projectName-core"))
   .settings(commonSettings: _*)
+  .settings(testFrameworks ++= Seq(new TestFramework("zio.test.sbt.ZTestFramework")))
   .settings(libraryDependencies ++= Seq(
     /* put here your dependencies */
-    Typesafe.config, Zio.core
+    Typesafe.config, Zio.core, Zio.test % Test, Zio.testSbt % Test
   ))
 
 /* the client to use to access to http services */

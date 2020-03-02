@@ -17,6 +17,6 @@ object Clients {
 
   }
 
-  import rakhov.majesticoauth.services.clients.dummy._
-  object Live extends ClientsInMemory
+//  import rakhov.majesticoauth.services.clients.dummy._
+//  object Live extends ClientsInMemory
 }

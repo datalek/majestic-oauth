@@ -2,35 +2,35 @@ package rakhov.majesticoauth.apis.clients
 
 import rakhov.majesticoauth.services.clients._
 import rakhov.majesticoauth.services.authorization._
-import zio.ZIO
+import rakhov.majesticoauth.services.events._
+import zio._
+
+case class Env(
+  authorizationService: Authorization.Service[Any],
+  eventService: Events.Service,
+  clientService: Clients.Service[Any]
+)
 
 object ClientApi {
+  trait Api {
 
-  def createClient(authorizationType: AuthorizationType, client: ClientDefinition): ZIO[Clients with Authorization, AuthorizationError, Client] = {
-    for {
-      authorization <- ZIO.access[Authorization](_.authorization)
-      clients <- ZIO.access[Clients](_.clients)
-      _ <- authorization.validate(authorizationType)
-      newClient <- clients.create(client).mapError(clientError => AuthorizationError())
-    } yield newClient
+    def create(
+      env: Env,
+      authorizationType: AuthorizationType,
+      clientDefinition: ClientDefinition
+    ): UIO[Either[ApiError, Client]]
+
+    def update(
+      env: Env,
+      authorizationType: AuthorizationType,
+      clientDefinition: ClientDefinition
+    ): UIO[Either[ApiError, Client]]
+
+    def detail(
+      env: Env,
+      authorizationType: AuthorizationType,
+      clientDefinition: ClientDefinition
+    ): UIO[Either[ApiError, Client]]
+
   }
-
-  def retrieveClient(authorizationType: AuthorizationType, id: ClientId): ZIO[Clients with Authorization, AuthorizationError, Option[Client]] = {
-    for {
-      authorization <- ZIO.access[Authorization](_.authorization)
-      clients <- ZIO.access[Clients](_.clients)
-      _ <- authorization.validate(authorizationType)
-      newClient <- clients.retrieve(id).mapError(clientError => AuthorizationError())
-    } yield newClient
-  }
-
-  def removeClient(authorizationType: AuthorizationType, id: ClientId): ZIO[Clients with Authorization, AuthorizationError, Client] = {
-    for {
-      authorization <- ZIO.access[Authorization](_.authorization)
-      clients <- ZIO.access[Clients](_.clients)
-      _ <- authorization.validate(authorizationType)
-      newClient <- clients.remove(id).mapError(clientError => AuthorizationError())
-    } yield newClient
-  }
-
 }

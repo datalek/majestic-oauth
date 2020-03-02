@@ -10,6 +10,9 @@ object Dependencies {
   }
 
   object Zio {
-    val core = "dev.zio" %% "zio" % "1.0.0-RC17"
+    val version = "1.0.0-RC17"
+    val core = "dev.zio" %% "zio" % version
+    val test = "dev.zio" %% "zio-test" % version
+    val testSbt = "dev.zio" %% "zio-test-sbt" % version
   }
 }

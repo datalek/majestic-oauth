@@ -20,11 +20,20 @@ case class ClientId(
 case class Client(
   id: ClientId,
   name: String,
-  credentials: Seq[ClientCredential]
+  credentials: Seq[ClientCredential],
+  scope: Seq[String]
 )
+object Client {
+  def clientDefintion(client: Client): ClientDefinition =
+    ClientDefinition(
+      name = client.name,
+      scope = client.scope
+    )
+}
 
 case class ClientDefinition(
-  name: String
+  name: String,
+  scope: Seq[String]
 )
 
 case class ClientError(
