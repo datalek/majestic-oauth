@@ -5,6 +5,9 @@ object AuthorizationType {
   final case class Token(value: String) extends AuthorizationType
 }
 
-final case class AuthorizationError(
+final case class Expired(authorizationType: AuthorizationType)
 
-)
+sealed trait AuthorizationError
+object AuthorizationError {
+  final case object Error extends AuthorizationError
+}

@@ -9,14 +9,14 @@ final case class ConstantAuthorizationSettings(
 )
 
 trait ConstantAuthorization extends Authorization.Service[ConstantAuthorizationSettings] {
-  def validate(authorizationType: AuthorizationType): ZIO[ConstantAuthorizationSettings, AuthorizationError, Identity] = {
+  def validate(authorizationType: AuthorizationType): ZIO[ConstantAuthorizationSettings, AuthorizationError, Either[Expired, Identity]] = {
     for {
       backingStore <- ZIO.access[ConstantAuthorizationSettings](_.backingStore)
       result <- backingStore.get(authorizationType) match {
         case Some(identity) =>
-          ZIO.succeed(identity)
+          ZIO.succeed(Right(identity))
         case None =>
-          ZIO.fail(AuthorizationError())
+          ZIO.fail(AuthorizationError.Error)
       }
     } yield result
   }

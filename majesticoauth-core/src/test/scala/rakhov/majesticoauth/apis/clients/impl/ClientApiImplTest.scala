@@ -2,6 +2,8 @@ package rakhov.majesticoauth.apis.clients.impl
 
 import generators.SnapshotGen
 import rakhov.majesticoauth.apis.clients._
+import rakhov.majesticoauth.services.authorization.impl.AuthorizationServiceStub
+import rakhov.majesticoauth.services.clients.impl.ClientServiceImpl
 import zio.test._
 
 object ClientApiImplTest extends DefaultRunnableSpec(
@@ -16,6 +18,18 @@ object ClientApiImplTest extends DefaultRunnableSpec(
 class ClientApiStub() {
   def prepareScenario(snapshot: Snapshot) = {
 
-    zio.IO.succeed(new ClientApiImpl())
+    val authorizationService =
+      new AuthorizationServiceStub(
+        backingStore = Seq()
+      )
+
+    val clientService =
+      new ClientServiceImpl()
+
+    val api = new ClientApiImpl(
+      authorizationService = authorizationService,
+      clientService = clientService
+    )
+    zio.IO.succeed(api)
   }
 }

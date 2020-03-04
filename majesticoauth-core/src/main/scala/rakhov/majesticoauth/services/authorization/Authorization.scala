@@ -9,7 +9,13 @@ trait Authorization {
 
 object Authorization {
   trait Service[E] {
-    def validate(authorizationType: AuthorizationType): ZIO[E, AuthorizationError, Identity]
+    /**
+     * Given an authorization return the connected identity.
+     *
+     * @param authorizationType The type of the authorization.
+     * @return The identity or the an error.
+     */
+    def validate(authorizationType: AuthorizationType): ZIO[E, AuthorizationError, Either[Expired, Identity]]
   }
 
   import rakhov.majesticoauth.services.authorization.dummy._

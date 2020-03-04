@@ -36,6 +36,9 @@ case class ClientDefinition(
   scope: Seq[String]
 )
 
-case class ClientError(
-
+case class ClientUpdate(
+  name: String,
+  scope: Seq[String]
 )
+
+case class ClientError()

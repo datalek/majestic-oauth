@@ -6,9 +6,7 @@ import rakhov.majesticoauth.services.events._
 import zio._
 
 case class Env(
-  authorizationService: Authorization.Service[Any],
   eventService: Events.Service,
-  clientService: Clients.Service[Any]
 )
 
 object ClientApi {
@@ -23,13 +21,14 @@ object ClientApi {
     def update(
       env: Env,
       authorizationType: AuthorizationType,
-      clientDefinition: ClientDefinition
+      clientId: ClientId,
+      clientUpdate: ClientUpdate
     ): UIO[Either[ApiError, Client]]
 
     def detail(
       env: Env,
       authorizationType: AuthorizationType,
-      clientDefinition: ClientDefinition
+      clientId: ClientId
     ): UIO[Either[ApiError, Client]]
 
   }

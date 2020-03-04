@@ -13,10 +13,12 @@ object Clients {
 
     def create(definition: ClientDefinition): ZIO[R, ClientError, Client]
 
+    def update(id: ClientId, update: ClientUpdate): ZIO[R, ClientError, Client]
+
     def remove(id: ClientId): ZIO[R, ClientError, Client]
 
   }
 
-//  import rakhov.majesticoauth.services.clients.dummy._
-//  object Live extends ClientsInMemory
+  //  import rakhov.majesticoauth.services.clients.dummy._
+  //  object Live extends ClientsInMemory
 }
