@@ -11,7 +11,7 @@ A clients manager, each operation produce an event that describe the action, an 
     },
     "action": {
         "type": "", // create | update
-        "what": {
+        "resource": {
             "id": "",
             "type": "", // client
         }
